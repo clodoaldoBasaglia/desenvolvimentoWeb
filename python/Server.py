@@ -1,4 +1,15 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
+
+
+def doArquivos():
+    dir = "C:\\Users\\Suporte\\Documents"
+    arquivos = str(os.listdir(dir))
+    arquivos = arquivos.split(',')
+    files = ''
+    for i in range(0, len(arquivos)):
+        files =str(i)+" "+files + arquivos[i] + "\n"
+    return str(arquivos)
 
 
 class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
@@ -10,7 +21,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_AUTH(self):
         self.send_response(401)
-        self.send_header('WWW-Authenticate', 'Basic realm=\"Test\"')
+        self.send_header('WWW-Authenticate', 'Basic realm=\"Desenvolvimento Web\"')
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
@@ -19,17 +30,19 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
         teste = self.headers
         if self.headers.get("Authorization") is None:
             self.do_AUTH()
-            self.wfile.write(bytes("NÃO TEM AUTORIZAÇÃO","UTF-8"))
+            self.wfile.write(bytes("NÃO TEM AUTORIZAÇÃO", "UTF-8"))
             pass
         elif self.headers.get('Authorization') == 'Basic cm9vdDpyb290':
             self.do_HEAD()
-            self.wfile.write(bytes(self.headers.get("Authorization"),"UTF-8"))
-            self.wfile.write(bytes('Autenticado!',"UTF-8"))
+            arquivos = doArquivos()
+            self.wfile.write(bytes(arquivos, "UTF-8"))
+            # self.wfile.write(bytes(self.headers.get("Authorization"), "UTF-8"))
+            self.wfile.write(bytes('Autenticado!', "UTF-8"))
             pass
         else:
             self.do_AUTH()
-            self.wfile.write(bytes(self.headers.get("Authorization"),"UTF-8"))
-            self.wfile.write(bytes("Nao autenticado","UTF-8"))
+            self.wfile.write(bytes(self.headers.get("Authorization"), "UTF-8"))
+            self.wfile.write(bytes("Nao autenticado", "UTF-8"))
             pass
 
 
