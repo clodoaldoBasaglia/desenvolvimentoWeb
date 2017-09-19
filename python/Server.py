@@ -17,28 +17,25 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         print("get")
         teste = self.headers
-        if self.headers.getheader("Authorization"):
-            print("teste")
+        if self.headers.get("Authorization") is None:
+            self.do_AUTH()
+            self.wfile.write(bytes("NÃO TEM AUTORIZAÇÃO","UTF-8"))
             pass
-        if self.headers.getheader('Authorization') == None:
+        elif self.headers.get('Authorization') == 'Basic cm9vdDpyb290':
             self.do_HEAD()
-            self.wfile.write('NÃO TEM AUTORIZAÇÃO')
-            pass
-        elif self.headers.getheader('Authorization') == 'Basic dGVzdDp0ZXN0':
-            self.do_HEAD()
-            self.wfile.write(self.headers.getheader("Authorization"))
-            self.wfile.write('Autenticado!')
+            self.wfile.write(bytes(self.headers.get("Authorization"),"UTF-8"))
+            self.wfile.write(bytes('Autenticado!',"UTF-8"))
             pass
         else:
             self.do_AUTH()
-            self.wfile.write(self.headers.getheader("Authorization"))
-            self.wfile.write("Não autenticado")
+            self.wfile.write(bytes(self.headers.get("Authorization"),"UTF-8"))
+            self.wfile.write(bytes("Nao autenticado","UTF-8"))
             pass
 
 
 def run():
     print("Iniciando servidor")
-    endereco = ("127.0.0.1", 8000)
+    endereco = ("127.0.0.1", 8082)
     httpd = HTTPServer(endereco, testHTTPServer_RequestHandler)
 
     print("servidor online")
