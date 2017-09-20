@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import os
+import os,sys
 
 
 def doArquivos():
@@ -34,8 +34,8 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
             pass
         elif self.headers.get('Authorization') == 'Basic cm9vdDpyb290':
             self.do_HEAD()
-            arquivos = doArquivos()
-            self.wfile.write(bytes(arquivos, "UTF-8"))
+            bemVindo = open("index.html")
+            self.wfile.write(bytes(str(bemVindo), "UTF-8"))
             # self.wfile.write(bytes(self.headers.get("Authorization"), "UTF-8"))
             self.wfile.write(bytes('Autenticado!', "UTF-8"))
             pass
