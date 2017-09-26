@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import os,sys
+import os
 
 
 def doArquivos():
@@ -53,6 +53,4 @@ def run():
 
     print("servidor online")
     httpd.serve_forever()
-
-
 run()
