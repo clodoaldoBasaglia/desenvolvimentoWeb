@@ -50,7 +50,6 @@ def run():
     print("Iniciando servidor")
     endereco = ("127.0.0.1", 8082)
     httpd = HTTPServer(endereco, testHTTPServer_RequestHandler)
-
     print("servidor online")
     httpd.serve_forever()
 run()
