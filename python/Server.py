@@ -20,7 +20,9 @@ def getServerInfo():
         arquivo = tuple(open("serverInfo.ss", "r+"))
         for i in range(0, len(arquivo)):
             info += arquivo[i]
-        rwriteFile = open("serverInfo.ss", "w+")
+        rwriteFile = open("serverInfo.ss", "r+")
+        linhas = rwriteFile.readlines()
+        print(linhas[1])
     else:
         arquivo = open("serverInfo.ss", "w+")
         arquivo.write("""O servidor está no ar desde """ + str(datetime.now().time().strftime("%A %d. %B %Y %H:%M:%S")))
