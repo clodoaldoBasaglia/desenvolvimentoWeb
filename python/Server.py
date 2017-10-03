@@ -8,8 +8,13 @@ def doArquivos():
     arquivos = arquivos.split(',')
     files = ''
     for i in range(0, len(arquivos)):
-        files =str(i)+" "+files + arquivos[i] + "\n"
+        files = str(i) + " " + files + arquivos[i] + "\n"
     return str(arquivos)
+
+
+def createCorpoHtml():
+    html = "<html><head><title>TODO supply a title</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body><div>TODO write content</div></body></html>"
+    return html
 
 
 class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
@@ -27,17 +32,16 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         print("get")
-        teste = self.headers
         if self.headers.get("Authorization") is None:
             self.do_AUTH()
             self.wfile.write(bytes("NÃO TEM AUTORIZAÇÃO", "UTF-8"))
             pass
         elif self.headers.get('Authorization') == 'Basic cm9vdDpyb290':
             self.do_HEAD()
-            bemVindo = open("index.html")
-            self.wfile.write(bytes(str(bemVindo), "UTF-8"))
-            # self.wfile.write(bytes(self.headers.get("Authorization"), "UTF-8"))
-            self.wfile.write(bytes('Autenticado!', "UTF-8"))
+            self.send_response(201)
+            self.send_header('Content-type', 'text/html')
+            htmlBemVindo = createCorpoHtml()
+            self.wfile.write(bytes(htmlBemVindo,"UTF-8"))
             pass
         else:
             self.do_AUTH()
@@ -52,4 +56,6 @@ def run():
     httpd = HTTPServer(endereco, testHTTPServer_RequestHandler)
     print("servidor online")
     httpd.serve_forever()
+
+
 run()
