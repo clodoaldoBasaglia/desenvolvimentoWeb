@@ -28,7 +28,6 @@ def getServerInfo():
         atualiza.write(linhas[0])
         atualiza.write("Numero de requisicoes atendidas:" + str(requisicoes))
         atualiza.close()
-        print(requisicoes)
     else:
         arquivo = open("serverInfo.ss", "w+")
         arquivo.write("""O servidor esta no ar desde """ + str(datetime.now().time().strftime("%d - %m - %Y %H:%M:%S")))
@@ -39,7 +38,7 @@ def getServerInfo():
 
 
 def createCorpoHtml():
-    html = """Bem vindo ao servidor, voce logou as """ + str(datetime.now().time().strftime('%H:%M:%S'))
+    html = """Bem vindo ao servidor, voce logou as """ + str(datetime.now().time().strftime('%H:%M:%S') + "\n\n")
     return html
 
 
