@@ -14,8 +14,25 @@ def doArquivos():
     return str(arquivos)
 
 
+def getServerInfo():
+    info = ""
+    if os.path.exists("serverInfo.ss"):
+        arquivo = tuple(open("serverInfo.ss", "r+"))
+        for i in range(0, len(arquivo)):
+            info += arquivo[i]
+        rwriteFile = open("serverInfo.ss", "w+")
+    else:
+        arquivo = open("serverInfo.ss", "w+")
+        arquivo.write("""O servidor está no ar desde """ + str(datetime.now().time().strftime("%A %d. %B %Y %H:%M:%S")))
+        arquivo.write("\n")
+        arquivo.write("Número de requisições atendidas:" + str(0))
+        arquivo.close()
+    return info
+
+
 def createCorpoHtml():
-    html = """Bem vindo ao servidor""" + str(datetime.now().time().strftime('%H:%M:%S'))
+    serverInfo = getServerInfo()
+    html = """Bem vindo ao servidor, você logou às """ + str(datetime.now().time().strftime('%H:%M:%S'))
     return html
 
 
@@ -55,7 +72,7 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
 
 def run():
     print("Iniciando servidor")
-    endereco = ("127.0.0.1", 8082)
+    endereco = ("192.168.237.15", 8082)
     httpd = HTTPServer(endereco, testHTTPServer_RequestHandler)
     print("servidor online")
     httpd.serve_forever()
