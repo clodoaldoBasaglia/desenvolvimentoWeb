@@ -1,9 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from datetime import datetime
 import os
 
 
 def doArquivos():
-    dir = "C:\\Users\\Suporte\\Documents"
+    # dir = "C:\\Users\\Suporte\\Documents"
+    dir = "/"
     arquivos = str(os.listdir(dir))
     arquivos = arquivos.split(',')
     files = ''
@@ -13,7 +15,7 @@ def doArquivos():
 
 
 def createCorpoHtml():
-    html = "<html><head><title>TODO supply a title</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body><div>TODO write content</div></body></html>"
+    html = """Bem vindo ao servidor""" + str(datetime.now().time().strftime('%H:%M:%S'))
     return html
 
 
@@ -38,10 +40,11 @@ class testHTTPServer_RequestHandler(BaseHTTPRequestHandler):
             pass
         elif self.headers.get('Authorization') == 'Basic cm9vdDpyb290':
             self.do_HEAD()
-            self.send_response(201)
+            self.send_response(200)
             self.send_header('Content-type', 'text/html')
             htmlBemVindo = createCorpoHtml()
-            self.wfile.write(bytes(htmlBemVindo,"UTF-8"))
+            # self.send_response(htmlBemVindo)
+            self.wfile.write(bytes(htmlBemVindo, "UTF-8"))
             pass
         else:
             self.do_AUTH()
