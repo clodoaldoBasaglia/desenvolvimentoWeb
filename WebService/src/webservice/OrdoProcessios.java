@@ -27,7 +27,7 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void codex(InputStream input) {
-        
+//        Buffer
     }
     @Override
     public void run() {
