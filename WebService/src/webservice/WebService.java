@@ -23,7 +23,7 @@ public class WebService extends Thread{
         // TODO code application logic here
         System.out.println("I have awoken.");
         try {
-            ServerSocket ss = new ServerSocket(666);
+            ServerSocket ss = new ServerSocket(8082);
             while(true){
                 Socket sok = ss.accept();
                 new Thread(new OrdoProcessios(sok)).run();

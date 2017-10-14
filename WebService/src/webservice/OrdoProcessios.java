@@ -5,21 +5,42 @@
  */
 package webservice;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author clodoaldo
  */
-public class OrdoProcessios implements Runnable{
+public class OrdoProcessios implements Runnable {
+
+    private final Socket sok;
+    InputStream input;
+    OutputStream output;
 
     OrdoProcessios(Socket sok) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.sok = sok;
     }
 
+    private void codex(InputStream input) {
+        System.out.println(input.toString());
+        input.toString();
+    }
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            input = sok.getInputStream();
+            output = sok.getOutputStream();
+            codex(input);
+        } catch (IOException ex) {
+            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
+
+
 }
