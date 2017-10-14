@@ -1,20 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package webservice;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  *
  * @author clodoaldo
+ * http://www.starwars.com/news/40-memorable-star-wars-quotes
+ * https://www.youtube.com/watch?v=PJ5s81NRdQE
  */
-public class WebService {
+public class WebService extends Thread{
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        System.out.println("I have awoken.");
+        try {
+            ServerSocket ss = new ServerSocket(666);
+            while(true){
+                Socket sok = ss.accept();
+                new Thread(new OrdoProcessios(sok)).run();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(WebService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }
