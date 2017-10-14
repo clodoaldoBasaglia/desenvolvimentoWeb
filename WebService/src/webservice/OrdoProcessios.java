@@ -27,8 +27,7 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void codex(InputStream input) {
-        System.out.println(input.toString());
-        input.toString();
+        
     }
     @Override
     public void run() {
