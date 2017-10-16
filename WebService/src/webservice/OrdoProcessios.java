@@ -33,9 +33,12 @@ public class OrdoProcessios implements Runnable {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String request = bufferedReader.readLine();
+            String texto = "";
             if (request.contains("GET")) {
-                System.out.println("GET");
-                metodoGet(input);
+                System.out.println(bufferedReader.readLine());
+                System.out.println(bufferedReader.readLine());
+                System.out.println(bufferedReader.readLine());
+                System.out.println(bufferedReader.readLine());
             }
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
@@ -45,16 +48,16 @@ public class OrdoProcessios implements Runnable {
     @Override
     public void run() {
         try {
-            input = sok.getInputStream();
-            output = sok.getOutputStream();
-            codex(input);
+            this.input = sok.getInputStream();
+            this.output = sok.getOutputStream();
+            codex(this.input);
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private void metodoGet(InputStream input) {
+    private void metodoGet(InputStream input) throws IOException {
     }
 
 }
