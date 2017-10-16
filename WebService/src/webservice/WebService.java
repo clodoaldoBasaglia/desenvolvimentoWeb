@@ -26,7 +26,7 @@ public class WebService extends Thread{
             ServerSocket ss = new ServerSocket(8082);
             while(true){
                 Socket sok = ss.accept();
-                new Thread(new OrdoProcessios(sok)).run();
+                new Thread(new OrdoProcessios(sok)).start();
             }
         } catch (IOException ex) {
             Logger.getLogger(WebService.class.getName()).log(Level.SEVERE, null, ex);

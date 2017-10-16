@@ -69,4 +69,15 @@ public class Request {
         this.accept = accept;
     }
 
+    @Override
+    public String toString() {
+        return "Request{" + "host=" + host + ", connection=" + connection + ", chacheControl=" + chacheControl + ", userAgent=" + userAgent + ", upgradeSegureRequest=" + upgradeSegureRequest + ", accept=" + accept + '}';
+    }
+    public void printAccepted(){
+        String aux ="";
+        for (String string : accept) {
+            aux+=string +"\n";
+        }
+        System.out.println(aux);
+    }
 }

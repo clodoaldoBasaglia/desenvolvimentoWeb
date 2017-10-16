@@ -34,12 +34,17 @@ public class OrdoProcessios implements Runnable {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String request = bufferedReader.readLine();
             String texto = "";
+            Request pedido = new Request();
             if (request.contains("GET")) {
-                System.out.println(bufferedReader.readLine());
-                System.out.println(bufferedReader.readLine());
-                System.out.println(bufferedReader.readLine());
-                System.out.println(bufferedReader.readLine());
+                pedido.setHost(bufferedReader.readLine().split(" ")[1]);
+                pedido.setConnection(bufferedReader.readLine().split(" ")[1]);
+                pedido.setChacheControl(bufferedReader.readLine().split(" ")[1]);
+                pedido.setUserAgent(bufferedReader.readLine().split(" ")[1]);
+                pedido.setUpgradeSegureRequest(bufferedReader.readLine().split(" ")[1]);
+                String[] aux = {bufferedReader.readLine().split(" ")[1], bufferedReader.readLine().split(" ")[1], bufferedReader.readLine().split(" ")[1]};
+                pedido.setAccept(aux);
             }
+            metodoGet(pedido);
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,7 +62,8 @@ public class OrdoProcessios implements Runnable {
 
     }
 
-    private void metodoGet(InputStream input) throws IOException {
+
+    private void metodoGet(Request pedido) {
     }
 
 }
