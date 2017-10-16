@@ -5,12 +5,15 @@
  */
 package webservice;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  *
@@ -27,8 +30,18 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void codex(InputStream input) {
-//        Buffer
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String request = bufferedReader.readLine();
+            if (request.contains("GET")) {
+                System.out.println("GET");
+                metodoGet(input);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
     @Override
     public void run() {
         try {
@@ -41,5 +54,7 @@ public class OrdoProcessios implements Runnable {
 
     }
 
+    private void metodoGet(InputStream input) {
+    }
 
 }
