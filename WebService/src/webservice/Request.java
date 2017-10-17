@@ -5,6 +5,8 @@
  */
 package webservice;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author clodoaldo
@@ -16,7 +18,7 @@ public class Request {
     private String chacheControl;
     private String userAgent;
     private String upgradeSegureRequest;
-    private String[] accept;
+    private ArrayList<String> accept;
 
     public Request() {
     }
@@ -61,22 +63,24 @@ public class Request {
         this.upgradeSegureRequest = upgradeSegureRequest;
     }
 
-    public String[] getAccept() {
-        return accept;
-    }
-
-    public void setAccept(String[] accept) {
-        this.accept = accept;
-    }
-
     @Override
     public String toString() {
         return "Request{" + "host=" + host + ", connection=" + connection + ", chacheControl=" + chacheControl + ", userAgent=" + userAgent + ", upgradeSegureRequest=" + upgradeSegureRequest + ", accept=" + accept + '}';
     }
-    public void printAccepted(){
-        String aux ="";
+
+
+    public ArrayList<String> getAccept() {
+        return accept;
+    }
+
+    public void setAccept(ArrayList<String> accept) {
+        this.accept = accept;
+    }
+
+    public void printAccept() {
+        String aux = "";
         for (String string : accept) {
-            aux+=string +"\n";
+            aux += string + "\n";
         }
         System.out.println(aux);
     }

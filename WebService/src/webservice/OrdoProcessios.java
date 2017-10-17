@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -35,16 +36,22 @@ public class OrdoProcessios implements Runnable {
             String request = bufferedReader.readLine();
             String texto = "";
             Request pedido = new Request();
+            ArrayList<String> aux = new ArrayList<String>();
+            System.out.println(request);
             if (request.contains("GET")) {
                 pedido.setHost(bufferedReader.readLine().split(" ")[1]);
                 pedido.setConnection(bufferedReader.readLine().split(" ")[1]);
                 pedido.setChacheControl(bufferedReader.readLine().split(" ")[1]);
                 pedido.setUserAgent(bufferedReader.readLine().split(" ")[1]);
                 pedido.setUpgradeSegureRequest(bufferedReader.readLine().split(" ")[1]);
-                String[] aux = {bufferedReader.readLine().split(" ")[1], bufferedReader.readLine().split(" ")[1], bufferedReader.readLine().split(" ")[1]};
+                while ((texto = bufferedReader.readLine()) != null) {
+                    aux.add(texto);
+                }
                 pedido.setAccept(aux);
+                metodoGet(pedido);
+            } else if (request.contains("POST")) {
+
             }
-            metodoGet(pedido);
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -62,8 +69,8 @@ public class OrdoProcessios implements Runnable {
 
     }
 
-
     private void metodoGet(Request pedido) {
+        
     }
 
 }
