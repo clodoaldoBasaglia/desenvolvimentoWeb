@@ -115,7 +115,7 @@ public class Arquivo {
         int i = 0;
         System.out.println(path);
         String dirPai = dirPai(path);
-        String linhasDeInfo = "<tr><td>--</td><td><a href=\"/leArquivo" + dirPai + " \"> ..Voltar</a></td><td></td><td></td></tr>";
+        String linhasDeInfo = "<tr><td>--</td><td><a href=\"/leArquivo" + dirPai + " \"> ..Voltar</a></td><td></td><td></td><td></td></tr>";
         System.out.println("DirPai: " + dirPai);
         if (f.isDirectory()) {
             File[] listFiles = f.listFiles();
@@ -131,11 +131,13 @@ public class Arquivo {
                     href = listFile.getAbsolutePath();
                     linhasDeInfo += "<tr><td>" + i + "</td><td><a href=\"/leArquivo" + href + " \"> " + listFile.getName() + "</a></td> "
                             + "<td>" + bfa.size() + " bytes</td><td>" + dataCriacao + "</td>"
-                            + "<td>" + dataModificacao + "</td></tr> \n";
+                            + "<td>" + dataModificacao + "</td><td></td></tr> \n";
                 } else {
                     linhasDeInfo += "<tr><td>" + i + "</td><td>" + listFile.getName() + "</td> "
                             + "<td>" + bfa.size() + " bytes</td><td>" + dataCriacao + "</td>"
-                            + "<td>" + dataModificacao + "</td></tr> \n";
+                            + "<td>" + dataModificacao
+                            + "</td><td><button type=\"button\" class=\"btn btn-info\"><a href=\""+
+                            listFile.getAbsolutePath()+" \" download><i class=\"fa fa-download\" aria-hidden=\"true\"></i>Download</a></button></td></tr> \n";
                 }
                 i++;
             }
