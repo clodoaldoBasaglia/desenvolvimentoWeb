@@ -1,0 +1,1 @@
+O servidor está funcionando desde : 18/10/2017 03:04:32

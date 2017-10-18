@@ -5,10 +5,12 @@
  */
 package webservice;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +19,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +33,48 @@ public class Arquivo {
 
     public Arquivo(String path) {
         this.path = path;
+    }
+
+    public String aboutServer() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        String data = df.format(date);
+        File f = new File("info.ss");
+        String conteudo = "";
+        if (f.isFile() && f.isFile()) {
+            FileReader fr = null;
+            try {
+                fr = new FileReader(f);
+                BufferedReader bufferedReader = new BufferedReader(fr);
+                conteudo = bufferedReader.readLine();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fr.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(f);
+                conteudo = "O servidor está funcionando desde : " + data;
+                fw.write(conteudo);
+            } catch (IOException ex) {
+                Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fw.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return conteudo;
     }
 
     public String openFile() {
@@ -55,9 +100,11 @@ public class Arquivo {
     public String lerDiretorio(String path) throws IOException {
         File f = new File(path);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String linhasDeInfo = " ";
         int i = 0;
         System.out.println(path);
+        String dirPai = dirPai(path);
+        String linhasDeInfo = "<tr><td>--</td><td><a href=\"/leArquivo" + dirPai + " \"> ..Voltar</a></td><td></td><td></td></tr>";
+        System.out.println("DirPai: " + dirPai);
         if (f.isDirectory()) {
             File[] listFiles = f.listFiles();
             String href = "";
@@ -84,5 +131,10 @@ public class Arquivo {
             System.out.println("não");
         }
         return linhasDeInfo;
+    }
+
+    private String dirPai(String path) {
+        String substring = path.substring(0, path.lastIndexOf("/", path.lastIndexOf("/") - 1));
+        return substring + "/";
     }
 }

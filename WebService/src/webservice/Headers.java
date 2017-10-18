@@ -5,13 +5,20 @@
  */
 package webservice;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
  * @author clodoaldo
  */
 public class Headers {
+    private int ctd=0;
 
     public Headers() {
 
@@ -24,7 +31,7 @@ public class Headers {
                 + "Date: " + time + "\r\n"
                 + "Last-Modified: \r\n"
                 + "Content-Length: \r\n"
-                + "Set-Cookie: cookieName=cookieValue;\r\n"
+                + "Set-Cookie: quantidadeAcessos="+(++this.ctd)+"\";\r\n"
                 + "Content-Type: text/html \r\n\r\n";
     }
 
@@ -33,11 +40,12 @@ public class Headers {
         long time = d.getTime();
         return "HTTP/1.1 401 OK\r\n"
                 + "Date: " + time + "\r\n"
-                +"Authorization', Basic cm9vdDpyb290"
+                + "Authorization', Basic cm9vdDpyb290"
                 + "Last-Modified: \r\n"
                 + "Content-Length: \r\n"
-                + "Set-Cookie: cookieName=cookieValue;\r\n"
                 + "Content-Type: text/html \r\n\r\n";
     }
+
+    
 
 }

@@ -13,10 +13,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 
 /**
  *
@@ -35,6 +33,7 @@ public class OrdoProcessios implements Runnable {
     private void codex(InputStream input) {
         String pathToHtml = new File("").getAbsolutePath();
         Headers headers = new Headers();
+
         try {
             Arquivo arq = null;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
@@ -43,6 +42,7 @@ public class OrdoProcessios implements Runnable {
             Request pedido = new Request();
             System.out.println("primeira linha: " + request);
             ArrayList<String> aux = new ArrayList<String>();
+
             if (request.split(" ")[1].equalsIgnoreCase("/") || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")) {
                 arq = new Arquivo(pathToHtml + "/src/html/bemvindo.html");
                 this.output.write(headers.BasicHeader().getBytes());
@@ -63,17 +63,30 @@ public class OrdoProcessios implements Runnable {
                 this.output.write(headers.BasicHeader().getBytes());
                 arq = new Arquivo(pathToHtml + "/src/html/diretorios.html");
                 String caminho = request.split(" ")[1];//.substring(request.indexOf("/"), request.split(" ")[1].length());
-                caminho = caminho.substring(1,request.split(" ")[1].length());
-                caminho = caminho.substring(caminho.indexOf("/"),caminho.length());
-                String lerDiretorio = arq.lerDiretorio(caminho+"/");
+                caminho = caminho.substring(1, request.split(" ")[1].length());
+                caminho = caminho.substring(caminho.indexOf("/"), caminho.length());
+                String lerDiretorio = arq.lerDiretorio(caminho + "/");
                 String diretorio = arq.openFile();
                 diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
                 this.output.write(diretorio.getBytes());
+            } else if (request.contains("/telemetria.html") || request.contains("/telemetria")) {
+                this.output.write(headers.BasicHeader().getBytes());
+                arq = new Arquivo(pathToHtml + "/src/html/telemetria.html");
+                System.out.println("Info: " + arq.aboutServer());
+                String openFile = arq.openFile();
+                String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
+                this.output.write(arq.aboutServer().getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
 
+            }
+            if(request.contains("POST") ){
+                String helper = "";
+                while((helper=bufferedReader.readLine())!=null){
+                    System.out.println(helper);
+                }
             }
             if (request.contains("GET")) {
                 pedido.setHost(bufferedReader.readLine().split(" ")[1]);
@@ -85,11 +98,12 @@ public class OrdoProcessios implements Runnable {
                     aux.add(texto);
                 }
                 pedido.setAccept(aux);
-                metodoGet(pedido);
-            } else if (request.contains("POST") || request.contains("/loginFunction")) {
-
+                String printAccept = pedido.printAccept();
+                
             }
-
+//            } else if (request.contains("POST") || request.contains("/loginFunction")) {
+//
+//            }
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }

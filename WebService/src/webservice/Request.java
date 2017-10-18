@@ -68,7 +68,6 @@ public class Request {
         return "Request{" + "host=" + host + ", connection=" + connection + ", chacheControl=" + chacheControl + ", userAgent=" + userAgent + ", upgradeSegureRequest=" + upgradeSegureRequest + ", accept=" + accept + '}';
     }
 
-
     public ArrayList<String> getAccept() {
         return accept;
     }
@@ -77,11 +76,11 @@ public class Request {
         this.accept = accept;
     }
 
-    public void printAccept() {
+    public String printAccept() {
         String aux = "";
         for (String string : accept) {
             aux += string + "\n";
         }
-        System.out.println(aux);
+        return aux;
     }
 }
