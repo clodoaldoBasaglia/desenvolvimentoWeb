@@ -6,6 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
+
         <title>Diretorios</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -18,19 +19,57 @@ and open the template in the editor.
             <li role="presentation"><a href="/telemetria">Telemetria</a></li>
         </ul>
         <div>Diretorios</div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="tabela">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Nome</th>
-                    <th>Tamanho</th>
-                    <th>Data de criação</th>
-                    <th>Ultima modificação</th>
+                    <th onclick="sortTable(1)">#</th>
+                    <th onclick="sortTable(1)">Nome</th>
+                    <th onclick="sortTable(2)">Tamanho</th>
+                    <th onclick="sortTable(3)">Data de criação</th>
+                    <th onclick="sortTable(4)">Ultima modificação</th>
                 </tr>
             </thead>
             <tbody>
                 panzerkampfwagen
             </tbody>
         </table>
+        <script>
+            function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("tabela");
+            switching = true;
+            dir = "asc"; 
+            while (switching) {
+            switching = false;
+            rows = table.getElementsByTagName("TR");
+            for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            if (dir == "asc") {
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+            }
+            } else if (dir == "desc") {
+            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch= true;
+            break;
+            }
+            }
+            }
+            if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            switchcount ++; 
+            } else {
+            if (switchcount == 0 && dir == "asc") {
+            dir = "desc";
+            switching = true;
+            }
+            }
+            }
+            }
+        </script>
     </body>
 </html>
