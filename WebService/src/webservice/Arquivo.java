@@ -57,6 +57,7 @@ public class Arquivo {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String linhasDeInfo = " ";
         int i = 0;
+        System.out.println(path);
         if (f.isDirectory()) {
             File[] listFiles = f.listFiles();
             String href = "";
@@ -69,7 +70,7 @@ public class Arquivo {
                 String dataModificacao = df.format(ftModificado.toMillis());
                 if (listFile.isDirectory()) {
                     href = listFile.getAbsolutePath();
-                    linhasDeInfo += "<tr><td>" + i + "</td><td><a href=\"" + href + " \"> " + listFile.getName() + "</a></td> "
+                    linhasDeInfo += "<tr><td>" + i + "</td><td><a href=\"/leArquivo" + href + " \"> " + listFile.getName() + "</a></td> "
                             + "<td>" + bfa.size() + " bytes</td><td>" + dataCriacao + "</td>"
                             + "<td>" + dataModificacao + "</td></tr> \n";
                 } else {

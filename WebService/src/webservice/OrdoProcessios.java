@@ -59,6 +59,16 @@ public class OrdoProcessios implements Runnable {
                 String diretorio = arq.openFile();
                 diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
                 this.output.write(diretorio.getBytes());
+            } else if (request.contains("/leArquivo/") || request.contains("/leArquivo")) {
+                this.output.write(headers.BasicHeader().getBytes());
+                arq = new Arquivo(pathToHtml + "/src/html/diretorios.html");
+                String caminho = request.split(" ")[1];//.substring(request.indexOf("/"), request.split(" ")[1].length());
+                caminho = caminho.substring(1,request.split(" ")[1].length());
+                caminho = caminho.substring(caminho.indexOf("/"),caminho.length());
+                String lerDiretorio = arq.lerDiretorio(caminho+"/");
+                String diretorio = arq.openFile();
+                diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
+                this.output.write(diretorio.getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
