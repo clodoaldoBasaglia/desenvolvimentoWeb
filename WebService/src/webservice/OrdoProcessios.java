@@ -6,12 +6,14 @@
 package webservice;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
@@ -31,13 +33,20 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void codex(InputStream input) {
+        String pathToHtml = new File("").getAbsolutePath();
         try {
+            Arquivo arq = null;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String request = bufferedReader.readLine();
             String texto = "";
             Request pedido = new Request();
+            System.out.println("primeira linha: "+request);
             ArrayList<String> aux = new ArrayList<String>();
-            System.out.println(request);
+            if (request.split(" ")[1].equalsIgnoreCase("/")) {
+                arq = new Arquivo(pathToHtml + "/src/html/bemvindo.html");
+                this.output.write(makeHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+            }
             if (request.contains("GET")) {
                 pedido.setHost(bufferedReader.readLine().split(" ")[1]);
                 pedido.setConnection(bufferedReader.readLine().split(" ")[1]);
@@ -48,6 +57,7 @@ public class OrdoProcessios implements Runnable {
                     aux.add(texto);
                 }
                 pedido.setAccept(aux);
+                System.out.println(pedido.toString());
                 metodoGet(pedido);
             } else if (request.contains("POST")) {
 
@@ -70,7 +80,18 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void metodoGet(Request pedido) {
-        
+        System.out.println(pedido.toString());
+    }
+
+    private String makeHeader() {
+        Date d = new Date();
+        long time = d.getTime();
+        return "HTTP/1.1 200 OK\r\n"
+                + "Date: " + time + "\r\n"
+                + "Last-Modified: \r\n"
+                + "Content-Length: \r\n"
+                + "Set-Cookie: cookieName=cookieValue;\r\n"
+                + "Content-Type: text/html \r\n\r\n";
     }
 
 }
