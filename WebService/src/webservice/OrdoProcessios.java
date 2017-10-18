@@ -75,7 +75,7 @@ public class OrdoProcessios implements Runnable {
                 System.out.println("Info: " + arq.aboutServer());
                 String openFile = arq.openFile();
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
-                this.output.write(arq.aboutServer().getBytes());
+                this.output.write(replace.getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
