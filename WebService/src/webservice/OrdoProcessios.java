@@ -25,6 +25,7 @@ public class OrdoProcessios implements Runnable {
     private final Socket sok;
     InputStream input;
     OutputStream output;
+    private boolean isLogado = false;
 
     OrdoProcessios(Socket sok) {
         this.sok = sok;
@@ -76,30 +77,42 @@ public class OrdoProcessios implements Runnable {
                 String openFile = arq.openFile();
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
                 this.output.write(replace.getBytes());
+            } else if (request.contains("POST") || request.contains("/loginFunction")) {
+                this.output.write(headers.BasicHeader().getBytes());
+                arq = new Arquivo(pathToHtml + "/src/html/blank.html");
+                this.output.write(arq.openFile().getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
 
             }
-            if(request.contains("POST") ){
+            if (request.contains("POST")) {
                 String helper = "";
-                while((helper=bufferedReader.readLine())!=null){
-                    System.out.println(helper);
+                while ((helper = bufferedReader.readLine()) != null) {
+                    if (helper.contains("login=")) {
+                        System.out.println("LOGIN");
+                    }
                 }
             }
             if (request.contains("GET")) {
-                pedido.setHost(bufferedReader.readLine().split(" ")[1]);
-                pedido.setConnection(bufferedReader.readLine().split(" ")[1]);
-                pedido.setChacheControl(bufferedReader.readLine().split(" ")[1]);
-                pedido.setUserAgent(bufferedReader.readLine().split(" ")[1]);
-                pedido.setUpgradeSegureRequest(bufferedReader.readLine().split(" ")[1]);
-                while ((texto = bufferedReader.readLine()) != null) {
-                    aux.add(texto);
+                String helper = "";
+                while ((helper = bufferedReader.readLine()) != null) {
+                    if (helper.contains("login=")) {
+                        System.out.println("LOGIN get");
+                    }
                 }
-                pedido.setAccept(aux);
-                String printAccept = pedido.printAccept();
-                
+//                pedido.setHost(bufferedReader.readLine().split(" ")[1]);
+//                pedido.setConnection(bufferedReader.readLine().split(" ")[1]);
+//                pedido.setChacheControl(bufferedReader.readLine().split(" ")[1]);
+//                pedido.setUserAgent(bufferedReader.readLine().split(" ")[1]);
+//                pedido.setUpgradeSegureRequest(bufferedReader.readLine().split(" ")[1]);
+//                while ((texto = bufferedReader.readLine()) != null) {
+//                    aux.add(texto);
+//                }
+//                pedido.setAccept(aux);
+//                String printAccept = pedido.printAccept();
+
             }
 //            } else if (request.contains("POST") || request.contains("/loginFunction")) {
 //
