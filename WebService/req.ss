@@ -1,0 +1,17 @@
+/diretorios
+/historico
+/historico
+/telemetria
+/historico
+/bemvindo
+/login
+/historico
+/historico
+/historico
+/historico
+/telemetria
+/diretorios
+/telemetria
+/historico
+/historico
+/historico
