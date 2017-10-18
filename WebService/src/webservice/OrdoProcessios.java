@@ -55,11 +55,15 @@ public class OrdoProcessios implements Runnable {
             } else if (request.contains("/diretorios.html") || request.contains("/diretorios")) {
                 this.output.write(headers.BasicHeader().getBytes());
                 arq = new Arquivo(pathToHtml + "/src/html/diretorios.html");
-                this.output.write(arq.openFile().getBytes());
+                String lerDiretorio = arq.lerDiretorio(pathToHtml);
+                String diretorio = arq.openFile();
+                diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
+                this.output.write(diretorio.getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
+
             }
             if (request.contains("GET")) {
                 pedido.setHost(bufferedReader.readLine().split(" ")[1]);
