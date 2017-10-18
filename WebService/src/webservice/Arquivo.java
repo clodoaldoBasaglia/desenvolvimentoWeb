@@ -47,6 +47,10 @@ public class Arquivo {
                 fr = new FileReader(f);
                 BufferedReader bufferedReader = new BufferedReader(fr);
                 conteudo = bufferedReader.readLine();
+                String helper = bufferedReader.readLine();
+                String substring = helper.substring(helper.lastIndexOf(":"),helper.length());
+                int numero =Integer.parseInt(substring.trim());
+                System.out.println(numero);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -62,7 +66,8 @@ public class Arquivo {
             FileWriter fw = null;
             try {
                 fw = new FileWriter(f);
-                conteudo = "O servidor está funcionando desde : " + data;
+                conteudo = "O servidor está funcionando desde : " + data + "\n";
+                conteudo += "As resquisições respondidas por este servidor chegam ao número de: " + 1 ;
                 fw.write(conteudo);
             } catch (IOException ex) {
                 Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);
