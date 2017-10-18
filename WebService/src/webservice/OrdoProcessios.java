@@ -49,8 +49,12 @@ public class OrdoProcessios implements Runnable {
                 this.output.write(arq.openFile().getBytes());
                 // || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")
             } else if (request.split(" ")[1].equalsIgnoreCase("/login")) {
-                arq = new Arquivo(pathToHtml+"/src/html/login.html");
+                arq = new Arquivo(pathToHtml + "/src/html/login.html");
                 this.output.write(headers.BasicHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+            } else if (request.contains("/diretorios.html") || request.contains("/diretorios")) {
+                this.output.write(headers.BasicHeader().getBytes());
+                arq = new Arquivo(pathToHtml + "/src/html/diretorios.html");
                 this.output.write(arq.openFile().getBytes());
             } else {
                 arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
@@ -67,11 +71,11 @@ public class OrdoProcessios implements Runnable {
                     aux.add(texto);
                 }
                 pedido.setAccept(aux);
-                System.out.println(pedido.toString());
                 metodoGet(pedido);
-            } else if (request.contains("POST")) {
+            } else if (request.contains("POST") || request.contains("/loginFunction")) {
 
             }
+
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
