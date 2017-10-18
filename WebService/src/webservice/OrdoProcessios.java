@@ -34,17 +34,27 @@ public class OrdoProcessios implements Runnable {
 
     private void codex(InputStream input) {
         String pathToHtml = new File("").getAbsolutePath();
+        Headers headers = new Headers();
         try {
             Arquivo arq = null;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String request = bufferedReader.readLine();
             String texto = "";
             Request pedido = new Request();
-            System.out.println("primeira linha: "+request);
+            System.out.println("primeira linha: " + request);
             ArrayList<String> aux = new ArrayList<String>();
-            if (request.split(" ")[1].equalsIgnoreCase("/")) {
+            if (request.split(" ")[1].equalsIgnoreCase("/") || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")) {
                 arq = new Arquivo(pathToHtml + "/src/html/bemvindo.html");
-                this.output.write(makeHeader().getBytes());
+                this.output.write(headers.BasicHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+                // || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")
+            } else if (request.split(" ")[1].equalsIgnoreCase("/login")) {
+                arq = new Arquivo(pathToHtml+"/src/html/login.html");
+                this.output.write(headers.BasicHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+            } else {
+                arq = new Arquivo(pathToHtml + "/src/html/erro404.html");
+                this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
             }
             if (request.contains("GET")) {
@@ -80,18 +90,7 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void metodoGet(Request pedido) {
-        System.out.println(pedido.toString());
-    }
-
-    private String makeHeader() {
-        Date d = new Date();
-        long time = d.getTime();
-        return "HTTP/1.1 200 OK\r\n"
-                + "Date: " + time + "\r\n"
-                + "Last-Modified: \r\n"
-                + "Content-Length: \r\n"
-                + "Set-Cookie: cookieName=cookieValue;\r\n"
-                + "Content-Type: text/html \r\n\r\n";
+//        System.out.println(pedido.toString());
     }
 
 }
