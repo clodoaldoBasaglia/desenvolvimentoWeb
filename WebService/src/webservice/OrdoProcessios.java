@@ -7,7 +7,6 @@ package webservice;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,10 +15,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.security.action.OpenFileInputStreamAction;
 
 /**
  *
@@ -30,7 +30,7 @@ public class OrdoProcessios implements Runnable {
     private final Socket sok;
     InputStream input;
     OutputStream output;
-    private boolean isLogado = false;
+    private boolean isLogado = true;
     String pathToHtml = new File("").getAbsolutePath();
     Arquivo arq = null;
     Headers headers = new Headers();
@@ -52,7 +52,7 @@ public class OrdoProcessios implements Runnable {
             System.out.println("primeira linha: " + request);
             ArrayList<String> aux = new ArrayList<String>();
             if (request.contains("POST")) {
-                metodoPOST(request,bufferedReader);
+                metodoPOST(request, bufferedReader);
             } else if (request.contains("GET")) {
                 System.out.println(this.isLogado);
                 metodoGET(request);
@@ -61,7 +61,7 @@ public class OrdoProcessios implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("aqu");
-            
+
         }
     }
 
@@ -128,17 +128,14 @@ public class OrdoProcessios implements Runnable {
             File f = new File("req.ss");
             bufferedReader = new BufferedReader(new FileReader(f));
             while ((aux = bufferedReader.readLine()) != null) {
+//                System.out.println(aux);
                 ar.add(aux);
             }
             for (int i = 0; i < ar.size(); i++) {
-                for (int h = i; h < ar.size(); h++) {
-                    if (ar.get(i).equalsIgnoreCase(ar.get(h))) {
-                        cont++;
-                    }
-                }
-                linhas = "<tr><td>" + num + "</td><td>" + ar.get(i) + "</td><td>" + cont + "</td></tr>";
+                linhas += "<tr><td>" + num + "</td><td>" + ar.get(i).split(";")[0] + "</td><td>" + ar.get(i).split(";")[1] + "</td></tr>";
                 num++;
             }
+            System.out.println(linhas);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -155,10 +152,13 @@ public class OrdoProcessios implements Runnable {
 
     public void salvarRequisicoes(String req) {
         FileWriter fw = null;
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        System.out.println(sdf.format(cal.getTime()));
         try {
             String filename = "req.ss";
             fw = new FileWriter(filename, true); //the true will append the new data
-            fw.write(req + "\n");//appends the string to the file
+            fw.write(req + ";" + sdf.format(cal.getTime()) + "\n");//appends the string to the file
             fw.close();
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,7 +172,7 @@ public class OrdoProcessios implements Runnable {
     }
 
     private void metodoGET(String request) throws IOException {
-        System.out.println("Metodo get: "+this.isLogado);
+        System.out.println("Metodo get: " + this.isLogado);
         if (request.split(" ")[1].equalsIgnoreCase("/") || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")
                 || request.split(" ")[1].equalsIgnoreCase("/bemvindo")) {
             salvarRequisicoes("/bemvindo");
