@@ -6,15 +6,12 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  *
- * @author clodoaldo
- * http://www.starwars.com/news/40-memorable-star-wars-quotes
+ * @author clodoaldo http://www.starwars.com/news/40-memorable-star-wars-quotes
  * https://www.youtube.com/watch?v=PJ5s81NRdQE
  */
-public class WebService extends Thread{
+public class WebService extends Thread {
 
     /**
      * @param args the command line arguments
@@ -23,8 +20,9 @@ public class WebService extends Thread{
         // TODO code application logic here
         System.out.println("I have awoken.");
         try {
-            ServerSocket ss = new ServerSocket(8082,50);
-            while(true){
+            ServerSocket ss = new ServerSocket(8082, 50);
+            while (true) {
+                new Thread(new BroadcastSender()).start();
                 Socket sok = ss.accept();
                 new Thread(new OrdoProcessios(sok)).start();
             }
@@ -32,5 +30,5 @@ public class WebService extends Thread{
             Logger.getLogger(WebService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
