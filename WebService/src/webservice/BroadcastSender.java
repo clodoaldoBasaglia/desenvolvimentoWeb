@@ -79,9 +79,9 @@ public class BroadcastSender implements Runnable {
                     String msg = "Sent message no " + i;
                     
                     DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(),msg.getBytes().length,addr,8082);
-                    serverSocket.send(msgPacket);
+//                    serverSocket.send(msgPacket);
                     
-                    System.out.println("Server sent packet with msg: " + msg);
+//                    System.out.println("Server sent packet with msg: " + msg);
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException ex) {

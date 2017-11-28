@@ -34,3 +34,10 @@
 /bemvindo;16:39:33
 /bemvindo;16:29:35
 /bemvindo;16:48:06
+/bemvindo;18:48:26
+/login;18:48:29
+/login;18:48:29
+/diretorios;18:48:34
+/telemetria;18:48:38
+/telemetria;19:06:08
+/telemetria;19:07:09
