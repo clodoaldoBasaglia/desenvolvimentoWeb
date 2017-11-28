@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,26 +69,30 @@ public class BroadcastSender implements Runnable {
         }
     }
 
-    private void sendBroadCast(String toString) {
-         // Get the address that we are going to connect to.
-        InetAddress addr = InetAddress.getByName(INET_ADDR);
-
-        // Open a new DatagramSocket, which will be used to send the data.
-        try (DatagramSocket serverSocket = new DatagramSocket()) {
-            for (int i = 0; i < 100; i++) {
-                String msg = "Sent message no " + i;
-
-                // Create a packet that will contain the data
-                // (in the form of bytes) and send it.
-                DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(),
-                        msg.getBytes().length, addr, PORT);
-                serverSocket.send(msgPacket);
-
-                System.out.println("Server sent packet with msg: " + msg);
-                Thread.sleep(500);
+    private void sendBroadCast(String endereco) {
+        try {
+            endereco = endereco.replace("/", "");
+            InetAddress addr = InetAddress.getByName(endereco);
+            
+            try (DatagramSocket serverSocket = new DatagramSocket()) {
+                for (int i = 0; i < 100; i++) {
+                    String msg = "Sent message no " + i;
+                    
+                    DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(),msg.getBytes().length,addr,8082);
+                    serverSocket.send(msgPacket);
+                    
+                    System.out.println("Server sent packet with msg: " + msg);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
