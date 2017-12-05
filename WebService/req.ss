@@ -52,3 +52,15 @@
 /telemetria;01:30:02
 /bemvindo;01:31:45
 /login;01:32:06
+/bemvindo;16:38:42
+/login;16:38:44
+/diretorios;16:38:47
+/telemetria;16:38:49
+/telemetria;16:39:44
+/telemetria;16:41:02
+/telemetria;16:44:29
+/telemetria;16:45:41
+/telemetria;16:47:40
+/telemetria;16:47:44
+/telemetria;16:48:57
+/telemetria;16:48:57
