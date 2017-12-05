@@ -41,3 +41,14 @@
 /telemetria;18:48:38
 /telemetria;19:06:08
 /telemetria;19:07:09
+/bemvindo;01:28:37
+/login;01:28:44
+/diretorios;01:28:48
+/leArquivo;01:28:59
+/leArquivo;01:29:00
+/leArquivo;01:29:56
+/leArquivo;01:29:57
+/leArquivo;01:29:59
+/telemetria;01:30:02
+/bemvindo;01:31:45
+/login;01:32:06

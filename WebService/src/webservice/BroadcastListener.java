@@ -5,26 +5,27 @@
  */
 package webservice;
 
-import static com.sun.xml.internal.ws.model.RuntimeModeler.PORT;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author a968692
+ * @author clodoaldo
  */
-public class BroadcastSender implements Runnable {
-
-    public BroadcastSender() {
+public class BroadcastListener implements Runnable {
+    public BroadcastListener(){
+        
+    }
+    @Override
+    public void run() {
+        InetAddress broadcastIp = getBroadcastIp();
+        System.out.println("Ouvindo o broadcast no IP: "+broadcastIp.getHostAddress());
+        
     }
 
     private InetAddress getBroadcastIp() {
@@ -57,41 +58,6 @@ public class BroadcastSender implements Runnable {
             Logger.getLogger(BroadCast.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-
-    @Override
-    public void run() {
-        System.out.println("print do broads");
-        InetAddress broadcastIp = getBroadcastIp();
-        if (broadcastIp != null) {
-            sendBroadCast(broadcastIp.toString());
-            System.out.println("this" + broadcastIp.toString());
-        }
-    }
-
-    private void sendBroadCast(String endereco) {
-        try {
-            endereco = endereco.replace("/", "");
-            InetAddress addr = InetAddress.getByName(endereco);
-            InetAddress ip = InetAddress.getLocalHost();
-            try (DatagramSocket serverSocket = new DatagramSocket()) {
-                String msg = "SD"+6666+"8082";
-
-                DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, addr, 6666);
-                serverSocket.send(msgPacket);
-
-                    System.out.println();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
 }

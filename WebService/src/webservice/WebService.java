@@ -23,6 +23,7 @@ public class WebService extends Thread {
             ServerSocket ss = new ServerSocket(8082, 50);
             while (true) {
                 new Thread(new BroadcastSender()).start();
+                new Thread(new BroadcastListener()).start();
                 Socket sok = ss.accept();
                 new Thread(new OrdoProcessios(sok)).start();
             }
