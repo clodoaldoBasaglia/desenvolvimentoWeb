@@ -5,6 +5,7 @@
  */
 package webservice;
 
+import java.awt.event.TextEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,9 +16,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +31,7 @@ import java.util.logging.Logger;
  */
 public class OrdoProcessios implements Runnable {
 
+    List<Amigo> arrayDeAmigo;
     private final Socket sok;
     InputStream input;
     OutputStream output;
@@ -35,8 +40,9 @@ public class OrdoProcessios implements Runnable {
     Arquivo arq = null;
     Headers headers = new Headers();
 
-    OrdoProcessios(Socket sok) {
+    OrdoProcessios(Socket sok, List<Amigo> arrayDeAmigo) {
         this.sok = sok;
+        this.arrayDeAmigo = arrayDeAmigo;
     }
 
     private void codex(InputStream input) {
@@ -240,7 +246,7 @@ public class OrdoProcessios implements Runnable {
             } else {
                 acessoNegado();
             }
-        }else if (request.contains("/telemetria2.html") || request.contains("/telemetria2")) {
+        } else if (request.contains("/telemetria2.html") || request.contains("/telemetria2")) {
             salvarRequisicoes("/telemetria2");
             if (this.isLogado) {
                 this.output.write(headers.BasicHeader().getBytes());
@@ -251,7 +257,7 @@ public class OrdoProcessios implements Runnable {
             } else {
                 acessoNegado();
             }
-        }else if (request.contains("/historico.html") || request.contains("/historico")) {
+        } else if (request.contains("/historico.html") || request.contains("/historico")) {
             salvarRequisicoes("/historico");
             if (this.isLogado) {
                 this.output.write(headers.BasicHeader().getBytes());
@@ -264,6 +270,7 @@ public class OrdoProcessios implements Runnable {
                 acessoNegado();
             }
         } else {
+            listaAmigos(arrayDeAmigo, request);
             arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
             this.output.write(headers.BasicHeader().getBytes());
             this.output.write(arq.openFile().getBytes());
@@ -282,5 +289,37 @@ public class OrdoProcessios implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void listaAmigos(List<Amigo> arrayDeAmigo, String request) {
+        System.out.println("Request >>> " + request);
+        for (Amigo amigo : arrayDeAmigo) {
+            try {
+                Socket socket = new Socket(amigo.getEnderco(), Integer.parseInt(amigo.getPortaHttp()));
+                OutputStream saida = socket.getOutputStream();
+                InputStream entrada = socket.getInputStream();
+                request.concat("\n FROM SERVER: True");
+                saida.write(request.getBytes());
+                int readEntrada = entrada.read();
+                String texto = getFromInput(entrada);
+                if (request == null || request == null) {
+                    socket.close();
+                    arrayDeAmigo.remove(amigo);
+                } else {
+                    OutputStream saida2 = this.sok.getOutputStream();
+                    saida2.write(texto.getBytes());
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private String getFromInput(InputStream entrada) {
+        String t = null;
+        try (Scanner scanner = new Scanner(entrada, StandardCharsets.UTF_8.name())) {
+            t = scanner.useDelimiter("\\A").next();
+        }
+        return t;
     }
 }

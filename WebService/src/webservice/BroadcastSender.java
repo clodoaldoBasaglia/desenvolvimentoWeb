@@ -64,32 +64,22 @@ public class BroadcastSender implements Runnable {
         System.out.println("print do broads");
         InetAddress broadcastIp = getBroadcastIp();
         if (broadcastIp != null) {
-            sendBroadCast(broadcastIp.toString());
-            System.out.println("this" + broadcastIp.toString());
+            sendBroadCast(broadcastIp);
+
         }
     }
 
-    private void sendBroadCast(String endereco) {
+    private void sendBroadCast(InetAddress broadcastIp) {
+        System.out.println("this" + broadcastIp.toString());
+        DatagramSocket ds;
         try {
-            endereco = endereco.replace("/", "");
-            InetAddress addr = InetAddress.getByName(endereco);
-            InetAddress ip = InetAddress.getLocalHost();
-            try (DatagramSocket serverSocket = new DatagramSocket()) {
-                String msg = "SD"+6666+"8082";
-
-                DatagramPacket msgPacket = new DatagramPacket(msg.getBytes(), msg.getBytes().length, addr, 6666);
-                serverSocket.send(msgPacket);
-
-                    System.out.println();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } catch (UnknownHostException ex) {
+            ds = new DatagramSocket();
+            String mensagem = "SD1234 " + String.valueOf(8082);
+            DatagramPacket dp = new DatagramPacket(mensagem.getBytes(), mensagem.getBytes().length, broadcastIp, 6666);
+            ds.send(dp);
+        } catch (SocketException ex) {
+            Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(BroadcastSender.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
