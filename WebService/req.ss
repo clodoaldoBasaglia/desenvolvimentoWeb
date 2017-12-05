@@ -64,3 +64,10 @@
 /telemetria;16:47:44
 /telemetria;16:48:57
 /telemetria;16:48:57
+/telemetria;16:51:18
+/telemetria;16:51:21
+/telemetria;16:51:28
+/telemetria;16:52:26
+/telemetria;16:53:40
+/telemetria;16:53:42
+/telemetria;16:53:48
