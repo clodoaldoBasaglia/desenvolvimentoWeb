@@ -125,3 +125,13 @@
 /telemetria;15:01:18
 /telemetria;15:15:41
 /telemetria;15:17:41
+/bemvindo;16:24:20
+/bemvindo;16:25:19
+/bemvindo;16:25:22
+/bemvindo;16:26:51
+/bemvindo;16:28:37
+/bemvindo;16:44:13
+/bemvindo;16:45:12
+/bemvindo;16:53:01
+/bemvindo;16:54:04
+/bemvindo;16:55:09
