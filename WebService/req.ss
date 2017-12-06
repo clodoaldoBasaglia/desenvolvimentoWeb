@@ -108,3 +108,8 @@
 /leArquivo;00:20:50
 /leArquivo;00:20:50
 /diretorios;00:20:52
+/bemvindo;01:39:17
+/login;01:39:24
+/diretorios;01:39:28
+/telemetria;01:44:58
+/telemetria;02:10:50
