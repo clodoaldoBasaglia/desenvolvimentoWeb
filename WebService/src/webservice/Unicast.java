@@ -41,7 +41,9 @@ public class Unicast implements Runnable {
                 String texto = new String(buffer, 0, packet.getLength());
                 texto = texto.replace("AD", "");
                 //add na lista
-                arrayDeAmigo.add(new Amigo(packet.getAddress().toString().replace("/", ""), texto));
+                if (!isAmigoNaLista(packet.getAddress().toString().replace("/", ""))) {
+                    arrayDeAmigo.add(new Amigo(packet.getAddress().toString().replace("/", ""), texto));
+                }
                 printList(arrayDeAmigo);
             }
         } catch (SocketException ex) {
@@ -56,6 +58,16 @@ public class Unicast implements Runnable {
         for (Amigo amigo : arrayDeAmigo) {
             System.out.println(amigo.toString());
         }
+    }
+
+    private boolean isAmigoNaLista(String replace) {
+        boolean flag = false;
+        for (Amigo amigo : arrayDeAmigo) {
+            if (amigo.getEnderco().equals(replace)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
 }

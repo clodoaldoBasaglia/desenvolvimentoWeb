@@ -246,17 +246,7 @@ public class OrdoProcessios implements Runnable {
             } else {
                 acessoNegado();
             }
-        } else if (request.contains("/telemetria2.html") || request.contains("/telemetria2")) {
-            salvarRequisicoes("/telemetria2");
-            if (this.isLogado) {
-                this.output.write(headers.BasicHeader().getBytes());
-                arq = new Arquivo(this.pathToHtml + "/src/html/telemetria2.html");
-                String openFile = arq.openFile();
-                String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
-                this.output.write(replace.getBytes());
-            } else {
-                acessoNegado();
-            }
+
         } else if (request.contains("/historico.html") || request.contains("/historico")) {
             salvarRequisicoes("/historico");
             if (this.isLogado) {

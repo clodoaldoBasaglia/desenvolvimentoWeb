@@ -105,7 +105,9 @@ public class BroadcastListener implements Runnable {
             DatagramPacket pack = new DatagramPacket(confirmacao, confirmacao.length, adressSock);
             conf.send(pack);
             //receber na lista
-            arrayDeAmigo.add(new Amigo(pack.getAddress().toString().replace("/", ""),String.valueOf(parseInt0)));
+            if (!isAmigoNaLista(pack.getAddress().toString().replace("/", ""))) {
+                arrayDeAmigo.add(new Amigo(pack.getAddress().toString().replace("/", ""), String.valueOf(parseInt0)));
+            }
             printList(arrayDeAmigo);
         } catch (SocketException ex) {
             Logger.getLogger(BroadcastListener.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,6 +120,16 @@ public class BroadcastListener implements Runnable {
         for (Amigo amigo : arrayDeAmigo) {
             System.out.println(amigo.toString());
         }
+    }
+
+    private boolean isAmigoNaLista(String replace) {
+        boolean flag = false;
+        for (Amigo amigo : arrayDeAmigo) {
+            if (amigo.getEnderco().equals(replace)) {
+                flag = true;
+            }
+        }
+        return flag;
     }
 
 }
