@@ -241,7 +241,9 @@ public class OrdoProcessios implements Runnable {
                 this.output.write(headers.BasicHeader().getBytes());
                 arq = new Arquivo(this.pathToHtml + "/src/html/telemetria.html");
                 String openFile = arq.openFile();
+                int contLines = contaLinhas();
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
+                replace = openFile.replace("req", String.valueOf(contLines));
                 this.output.write(replace.getBytes());
             } else {
                 acessoNegado();
@@ -311,5 +313,32 @@ public class OrdoProcessios implements Runnable {
             t = scanner.useDelimiter("\\A").next();
         }
         return t;
+    }
+
+    private int contaLinhas() {
+        BufferedReader bufferedReader = null;
+        int cont = 0;
+        try {
+            String conteudo = "";
+            File f = new File("req.ss");
+            bufferedReader = new BufferedReader(new FileReader("req.ss"));
+            while ((conteudo = bufferedReader.readLine()) != null) {
+                cont++;
+            }
+            if (f.isFile()) {
+                System.out.println("is file");
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                bufferedReader.close();
+            } catch (IOException ex) {
+                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return cont;
     }
 }
