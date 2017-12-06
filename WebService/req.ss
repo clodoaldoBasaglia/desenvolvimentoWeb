@@ -113,3 +113,15 @@
 /diretorios;01:39:28
 /telemetria;01:44:58
 /telemetria;02:10:50
+/bemvindo;13:16:52
+/login;13:16:55
+/diretorios;13:16:58
+/telemetria;13:20:11
+/telemetria;13:59:52
+/telemetria;14:04:10
+/bemvindo;15:01:10
+/login;15:01:13
+/diretorios;15:01:16
+/telemetria;15:01:18
+/telemetria;15:15:41
+/telemetria;15:17:41
