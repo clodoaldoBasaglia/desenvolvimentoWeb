@@ -277,7 +277,7 @@ public class OrdoProcessios implements Runnable {
             };
             Future<Object> future = executor.submit(task);
             try {
-                Object ob = future.get(1, TimeUnit.SECONDS);
+                Object ob = future.get(5, TimeUnit.SECONDS);
             } catch (InterruptedException ex) {
                 arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
