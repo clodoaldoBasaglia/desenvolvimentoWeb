@@ -5,7 +5,6 @@
  */
 package webservice;
 
-import java.awt.event.TextEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +21,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -261,10 +267,34 @@ public class OrdoProcessios implements Runnable {
                 acessoNegado();
             }
         } else {
-            listaAmigos(arrayDeAmigo, request);
-            arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
-            this.output.write(headers.BasicHeader().getBytes());
-            this.output.write(arq.openFile().getBytes());
+            ExecutorService executor = Executors.newCachedThreadPool();
+            Callable<Object> task = new Callable<Object>() {
+                @Override
+                public Object call() throws Exception {
+                    return listaAmigos(arrayDeAmigo, request);
+                }
+
+            };
+            Future<Object> future = executor.submit(task);
+            try {
+                Object ob = future.get(1, TimeUnit.SECONDS);
+            } catch (InterruptedException ex) {
+                arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
+                this.output.write(headers.BasicHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+                System.out.println("deu timótio");
+//                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                System.out.println("entrou aqui no timotio");
+//                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TimeoutException ex) {
+                System.out.println("entrou aqui no timotio 3");
+                arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
+                this.output.write(headers.BasicHeader().getBytes());
+                this.output.write(arq.openFile().getBytes());
+                System.out.println("deu timótio");
+//                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         }
     }
@@ -282,10 +312,12 @@ public class OrdoProcessios implements Runnable {
         }
     }
 
-    private void listaAmigos(List<Amigo> arrayDeAmigo, String request) {
+    private boolean listaAmigos(List<Amigo> arrayDeAmigo, String request) {
+        boolean flag = true;
         System.out.println("Request >>> " + request);
         for (Amigo amigo : arrayDeAmigo) {
             try {
+                System.out.println("Procurando no migo: " + amigo.getEnderco());
                 Socket socket = new Socket(amigo.getEnderco(), Integer.parseInt(amigo.getPortaHttp()));
                 OutputStream saida = socket.getOutputStream();
                 InputStream entrada = socket.getInputStream();
@@ -296,14 +328,17 @@ public class OrdoProcessios implements Runnable {
                 if (request == null || request == null) {
                     socket.close();
                     arrayDeAmigo.remove(amigo);
+                    flag = false;
                 } else {
                     OutputStream saida2 = this.sok.getOutputStream();
                     saida2.write(texto.getBytes());
+                    flag = true;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return flag;
     }
 
     private String getFromInput(InputStream entrada) {
@@ -315,12 +350,12 @@ public class OrdoProcessios implements Runnable {
     }
 
     private int contLines() {
-        int cont=0;
+        int cont = 0;
         try {
             File f = new File("req.ss");
             BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
             String tet = "";
-            while((tet=bufferedReader.readLine())!=null){
+            while ((tet = bufferedReader.readLine()) != null) {
                 cont++;
             }
         } catch (FileNotFoundException ex) {

@@ -135,3 +135,17 @@
 /bemvindo;16:53:01
 /bemvindo;16:54:04
 /bemvindo;16:55:09
+/bemvindo;00:01:20
+/login;00:01:25
+/diretorios;00:01:28
+/leArquivo;00:01:47
+/leArquivo;00:01:56
+/leArquivo;00:01:59
+/leArquivo;00:02:02
+/telemetria;00:02:27
+/bemvindo;00:03:56
+/login;00:05:26
+/diretorios;00:05:46
+/diretorios;00:55:20
+/bemvindo;01:18:42
+/bemvindo;01:26:12
