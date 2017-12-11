@@ -125,6 +125,7 @@
 /telemetria;15:01:18
 /telemetria;15:15:41
 /telemetria;15:17:41
+<<<<<<< HEAD
 /bemvindo;15:20:47
 /historico;15:21:19
 /historico;15:33:07
@@ -134,3 +135,33 @@
 /telemetria;15:43:40
 /telemetria;15:44:16
 /telemetria;15:44:19
+=======
+/bemvindo;16:24:20
+/bemvindo;16:25:19
+/bemvindo;16:25:22
+/bemvindo;16:26:51
+/bemvindo;16:28:37
+/bemvindo;16:44:13
+/bemvindo;16:45:12
+/bemvindo;16:53:01
+/bemvindo;16:54:04
+/bemvindo;16:55:09
+/bemvindo;00:01:20
+/login;00:01:25
+/diretorios;00:01:28
+/leArquivo;00:01:47
+/leArquivo;00:01:56
+/leArquivo;00:01:59
+/leArquivo;00:02:02
+/telemetria;00:02:27
+/bemvindo;00:03:56
+/login;00:05:26
+/diretorios;00:05:46
+/diretorios;00:55:20
+/bemvindo;01:18:42
+/bemvindo;01:26:12
+>>>>>>> b8bcc03352c7db12f53bfacbce56b1a91e2ec375
+/bemvindo;15:19:21
+/login;15:19:33
+/diretorios;15:19:45
+/leArquivo;15:25:55
