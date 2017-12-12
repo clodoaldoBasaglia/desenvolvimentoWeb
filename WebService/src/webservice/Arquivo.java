@@ -51,9 +51,9 @@ public class Arquivo {
                 int pos = helper.lastIndexOf(":") + 1;
 //                   fr.close();
                 String substring = helper.substring(pos, helper.length());
-                int numero = Integer.parseInt(substring.trim());
+//                int numero = Integer.parseInt(substring.trim());
 //                FileWriter fw = new FileWriter(f);
-                helper = helper.replace(substring.trim(), String.valueOf(++numero));
+//                helper = helper.replace(substring.trim(), String.valueOf(++numero));
                 conteudo += "</br>" + helper;
 //                fw.write(conteudo);
 //                fw.write(helper);
@@ -74,7 +74,7 @@ public class Arquivo {
             try {
                 fw = new FileWriter(f);
                 conteudo = "O servidor está funcionando desde : " + data + "\n";
-                conteudo += "As resquisições respondidas por este servidor chegam ao número de: " + 1;
+                conteudo += "As resquisições respondidas por este servidor chegam ao número de: ";
                 fw.write(conteudo);
             } catch (IOException ex) {
                 Logger.getLogger(Arquivo.class.getName()).log(Level.SEVERE, null, ex);

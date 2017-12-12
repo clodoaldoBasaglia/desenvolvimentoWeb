@@ -248,7 +248,9 @@ public class OrdoProcessios implements Runnable {
                 arq = new Arquivo(this.pathToHtml + "/src/html/telemetria.html");
                 String openFile = arq.openFile();
                 int cont = contLines();
+                System.out.println("CONTADOR DE LINHAS >>> " + cont+" >>> "+arq.aboutServer());
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
+                replace = replace.replace("konigstiger", String.valueOf(cont));
                 this.output.write(replace.getBytes());
             } else {
                 acessoNegado();
