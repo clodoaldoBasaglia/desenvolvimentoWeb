@@ -252,6 +252,14 @@ public class OrdoProcessios implements Runnable {
             salvarRequisicoes("/teste");
             arq = new Arquivo(this.pathToHtml + "/src/html/teste.html");
             this.output.write(headers.BasicHeader().getBytes());
+            System.out.println(this.output.toString());
+            this.output.write(arq.openFile().getBytes());
+        } else if (request.contains("/oi.html") || request.contains("/oi")) {
+
+            salvarRequisicoes("/oi");
+            arq = new Arquivo(this.pathToHtml + "/src/html/oi.html");
+            this.output.write(headers.BasicHeader().getBytes());
+            System.out.println(this.output.toString());
             this.output.write(arq.openFile().getBytes());
 
         } else if (request.contains("/telemetria.html") || request.contains("/telemetria")) {
