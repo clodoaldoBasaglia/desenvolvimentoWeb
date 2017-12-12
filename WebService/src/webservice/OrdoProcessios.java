@@ -14,11 +14,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
@@ -45,6 +50,7 @@ public class OrdoProcessios implements Runnable {
     String pathToHtml = new File("").getAbsolutePath();
     Arquivo arq = null;
     Headers headers = new Headers();
+    String ipServer;
 
     OrdoProcessios(Socket sok, List<Amigo> arrayDeAmigo) {
         this.sok = sok;
@@ -322,26 +328,34 @@ public class OrdoProcessios implements Runnable {
     }
 
     private boolean listaAmigos(List<Amigo> arrayDeAmigo, String request) {
+        this.ipServer = getServerIp();
         boolean flag = true;
         System.out.println("Request >>> " + request);
         for (Amigo amigo : arrayDeAmigo) {
             try {
-                System.out.println("Procurando no migo: " + amigo.getEnderco());
-                Socket socket = new Socket(amigo.getEnderco(), Integer.parseInt(amigo.getPortaHttp()));
-                OutputStream saida = socket.getOutputStream();
-                InputStream entrada = socket.getInputStream();
-                request.concat("\n FROM SERVER: True");
-                saida.write(request.getBytes());
-                int readEntrada = entrada.read();
-                String texto = getFromInput(entrada);
-                if (request == null || request == null) {
-                    socket.close();
-                    arrayDeAmigo.remove(amigo);
-                    flag = false;
-                } else {
-                    OutputStream saida2 = this.sok.getOutputStream();
-                    saida2.write(texto.getBytes());
-                    flag = true;
+                if (!this.ipServer.equalsIgnoreCase(" ")) {
+
+                    if (this.ipServer.equalsIgnoreCase(amigo.getEnderco())) {
+
+                    } else {
+                        System.out.println("Procurando no migo: " + amigo.getEnderco() + " " + amigo.getPortaHttp());
+                        Socket socket = new Socket(amigo.getEnderco(), Integer.parseInt(amigo.getPortaHttp()));
+                        OutputStream saida = socket.getOutputStream();
+                        InputStream entrada = socket.getInputStream();
+                        request.concat("\n FROM SERVER: True");
+                        saida.write(request.getBytes());
+                        int readEntrada = entrada.read();
+                        String texto = getFromInput(entrada);
+                        if (request == null || request == null) {
+                            socket.close();
+                            arrayDeAmigo.remove(amigo);
+                            flag = false;
+                        } else {
+                            OutputStream saida2 = this.sok.getOutputStream();
+                            saida2.write(texto.getBytes());
+                            flag = true;
+                        }
+                    }
                 }
             } catch (IOException ex) {
                 Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
@@ -373,5 +387,27 @@ public class OrdoProcessios implements Runnable {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cont;
+    }
+
+    private String getServerIp() {
+        System.out.println("++++ PROCURANDO IP LOCAL +++");
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while (e.hasMoreElements()) {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                while (ee.hasMoreElements()) {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    int compareToIgnoreCase = i.getHostAddress().compareToIgnoreCase(" ");
+                    if (!(i.getHostAddress().compareToIgnoreCase("127.0.0.1") == 0)) {
+                        System.out.println(i.getHostAddress());
+                        return i.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return " ";
     }
 }

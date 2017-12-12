@@ -24,12 +24,15 @@ public class WebService extends Thread {
         List<Amigo> arrayDeAmigo = new ArrayList();
         try {
             ServerSocket ss = new ServerSocket(8082, 50);
+            Thread t = new Thread(new Unicast(arrayDeAmigo));
+            t.start();
+            t.stop();
             while (true) {
                 new Thread(new BroadcastSender()).start();
                 new Thread(new BroadcastListener(arrayDeAmigo)).start();
-                new Thread(new Unicast(arrayDeAmigo)).start();
+
                 Socket sok = ss.accept();
-                new Thread(new OrdoProcessios(sok,arrayDeAmigo)).start();
+                new Thread(new OrdoProcessios(sok, arrayDeAmigo)).start();
             }
         } catch (IOException ex) {
             Logger.getLogger(WebService.class.getName()).log(Level.SEVERE, null, ex);

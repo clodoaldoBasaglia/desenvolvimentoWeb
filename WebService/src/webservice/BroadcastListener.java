@@ -90,8 +90,10 @@ public class BroadcastListener implements Runnable {
             }
 
         } catch (SocketException ex) {
-            Logger.getLogger(BroadcastListener.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(BroadcastListener.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(" ");
         } catch (IOException ex) {
+            System.out.println(" ");
             Logger.getLogger(BroadcastListener.class.getName()).log(Level.SEVERE, null, ex);
         }
 
