@@ -5,7 +5,6 @@
  */
 package webservice;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

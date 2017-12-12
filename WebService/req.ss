@@ -1,2 +1,14 @@
 /telemetria;00:55:04
 /historico;00:55:27
+/telemetria;00:58:53
+/telemetria;00:58:54
+/telemetria;00:58:57
+/diretorios;00:58:59
+/telemetria;00:59:02
+/telemetria;00:59:53
+/historico;00:59:54
+/diretorios;00:59:56
+/bemvindo;00:59:57
+/login;00:59:58
+/diretorios;01:00:01
+/telemetria;01:03:44
