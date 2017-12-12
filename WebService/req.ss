@@ -12,3 +12,4 @@
 /login;00:59:58
 /diretorios;01:00:01
 /telemetria;01:03:44
+/telemetria;01:06:59
