@@ -54,3 +54,9 @@
 /telemetria;13:27:59
 /oi;13:28:02
 /teste;13:28:17
+/telemetria;14:18:37
+/telemetria;14:26:36
+/telemetria;14:26:41
+/telemetria;14:26:42
+/telemetria;14:26:43
+/telemetria;14:26:44
