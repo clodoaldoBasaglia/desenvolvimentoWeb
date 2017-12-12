@@ -45,3 +45,12 @@
 /oi;12:28:50
 /telemetria;12:29:41
 /telemetria;12:31:22
+/telemetria;12:32:49
+/telemetria;12:33:03
+/telemetria;12:34:42
+/telemetria;12:45:35
+/telemetria;12:49:18
+/telemetria;13:14:30
+/telemetria;13:27:59
+/oi;13:28:02
+/teste;13:28:17
