@@ -301,6 +301,7 @@ public class OrdoProcessios implements Runnable {
             Future<Object> future = executor.submit(task);
             try {
                 Object ob = future.get(5, TimeUnit.SECONDS);
+                
             } catch (InterruptedException ex) {
                 arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
@@ -348,6 +349,8 @@ public class OrdoProcessios implements Runnable {
                     } else {
                         System.out.println("Procurando no migo: " + amigo.getEnderco() + " " + amigo.getPortaHttp());
                         Socket socket = new Socket(amigo.getEnderco(), Integer.parseInt(amigo.getPortaHttp()));
+                        socket.getKeepAlive();
+                        System.out.println(socket.getKeepAlive());
                         OutputStream saida = socket.getOutputStream();
                         InputStream entrada = socket.getInputStream();
                         request.concat("\n FROM SERVER: True");

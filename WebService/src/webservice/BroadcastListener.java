@@ -87,6 +87,7 @@ public class BroadcastListener implements Runnable {
                     String[] portas = texto.split(" ");
                     resposta(dp.getAddress(), Integer.parseInt(portas[0]), Integer.parseInt(portas[1]));
                 }
+                dp.setLength(buffer.length);
             }
 
         } catch (SocketException ex) {
