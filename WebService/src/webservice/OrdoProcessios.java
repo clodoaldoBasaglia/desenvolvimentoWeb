@@ -241,6 +241,13 @@ public class OrdoProcessios implements Runnable {
             } else {
                 acessoNegado();
             }
+        } else if (request.contains("/teste.html") || request.contains("/teste")) {
+
+            salvarRequisicoes("/teste");
+            arq = new Arquivo(this.pathToHtml + "/src/html/teste.html");
+            this.output.write(headers.BasicHeader().getBytes());
+            this.output.write(arq.openFile().getBytes());
+
         } else if (request.contains("/telemetria.html") || request.contains("/telemetria")) {
             salvarRequisicoes("/telemetria");
             if (this.isLogado) {
@@ -248,7 +255,7 @@ public class OrdoProcessios implements Runnable {
                 arq = new Arquivo(this.pathToHtml + "/src/html/telemetria.html");
                 String openFile = arq.openFile();
                 int cont = contLines();
-                System.out.println("CONTADOR DE LINHAS >>> " + cont+" >>> "+arq.aboutServer());
+                System.out.println("CONTADOR DE LINHAS >>> " + cont + " >>> " + arq.aboutServer());
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
                 replace = replace.replace("konigstiger", String.valueOf(cont));
                 this.output.write(replace.getBytes());

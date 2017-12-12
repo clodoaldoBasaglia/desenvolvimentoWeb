@@ -13,3 +13,4 @@
 /diretorios;01:00:01
 /telemetria;01:03:44
 /telemetria;01:06:59
+/teste;08:59:06
