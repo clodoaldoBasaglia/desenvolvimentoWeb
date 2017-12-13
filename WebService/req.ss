@@ -105,3 +105,5 @@
 /bemvindo;13:39:24
 /erro404;13:42:29
 /erro404;13:43:37
+/historico;13:49:52
+/historico;14:30:04
