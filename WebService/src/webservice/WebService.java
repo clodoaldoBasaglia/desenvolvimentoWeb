@@ -27,9 +27,9 @@ public class WebService extends Thread {
             Thread t = new Thread(new Unicast(arrayDeAmigo));
             t.start();
             t.stop();
+            new Thread(new BroadcastSender()).start();
+            new Thread(new BroadcastListener(arrayDeAmigo)).start();
             while (true) {
-                new Thread(new BroadcastSender()).start();
-                new Thread(new BroadcastListener(arrayDeAmigo)).start();
 
                 Socket sok = ss.accept();
                 new Thread(new OrdoProcessios(sok, arrayDeAmigo)).start();

@@ -18,7 +18,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,6 +108,7 @@ public class OrdoProcessios implements Runnable {
     }
 
     private boolean fazLogin(BufferedReader bufferedReader) {
+        boolean flag = false;
         try {
             String helper = "";
             while ((helper = bufferedReader.readLine()) != null) {
@@ -122,9 +122,9 @@ public class OrdoProcessios implements Runnable {
                             this.isLogado = true;
                             System.out.println("logou");
                             System.out.println(this.isLogado);
-                            return true;
+                            flag = true;
                         } else {
-                            return false;
+                            flag = false;
                         }
                     }
                 }
@@ -132,7 +132,7 @@ public class OrdoProcessios implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return flag;
     }
 
     private String getInfoRequisicoes() {
@@ -191,23 +191,34 @@ public class OrdoProcessios implements Runnable {
 
     private void metodoGET(String request) throws IOException {
         System.out.println("Metodo get: " + this.isLogado);
+        if (request.split(" ")[1].equalsIgnoreCase("clodoaldo") || request.split(" ")[1].equalsIgnoreCase("/clodoaldo.html")) {
+            salvarRequisicoes("/clodoaldo");
+            arq = new Arquivo(this.pathToHtml + "/src/html/clodoaldo.html");
+            this.output.write(headers.BasicHeader().getBytes());
+            this.output.write(arq.openFile().getBytes());
+            this.output.close();
+        }
         if (request.split(" ")[1].equalsIgnoreCase("/") || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")
                 || request.split(" ")[1].equalsIgnoreCase("/bemvindo")) {
             salvarRequisicoes("/bemvindo");
             arq = new Arquivo(this.pathToHtml + "/src/html/bemvindo.html");
             this.output.write(headers.BasicHeader().getBytes());
             this.output.write(arq.openFile().getBytes());
+            this.output.close();
             // || request.split(" ")[1].equalsIgnoreCase("/bemvindo.html")
         } else if (request.split(" ")[1].equalsIgnoreCase("/login")) {
             salvarRequisicoes("/login");
             arq = new Arquivo(this.pathToHtml + "/src/html/login.html");
             this.output.write(headers.BasicHeader().getBytes());
             this.output.write(arq.openFile().getBytes());
+            this.output.close();
         } else if (request.split(" ")[1].equalsIgnoreCase("/login2")) {
             salvarRequisicoes("/login2");
             arq = new Arquivo(this.pathToHtml + "/src/html/login2.html");
             this.output.write(headers.BasicHeader().getBytes());
             this.output.write(arq.openFile().getBytes());
+
+            this.output.close();
         } else if (request.split(" ")[1].equalsIgnoreCase("/login2?")) {
             salvarRequisicoes("/login2");
             if (this.isLogado) {
@@ -217,8 +228,10 @@ public class OrdoProcessios implements Runnable {
                 String diretorio = arq.openFile();
                 diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
                 this.output.write(diretorio.getBytes());
+                this.output.close();
             } else {
                 acessoNegado();
+                this.output.close();
             }
         } else if (request.contains("/diretorios.html") || request.contains("/diretorios")) {
             salvarRequisicoes("/diretorios");
@@ -229,8 +242,10 @@ public class OrdoProcessios implements Runnable {
                 String diretorio = arq.openFile();
                 diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
                 this.output.write(diretorio.getBytes());
+                this.output.close();
             } else {
                 acessoNegado();
+                this.output.close();
             }
         } else if (request.contains("/leArquivo/") || request.contains("/leArquivo")) {
             salvarRequisicoes("/leArquivo");
@@ -244,6 +259,7 @@ public class OrdoProcessios implements Runnable {
                 String diretorio = arq.openFile();
                 diretorio = diretorio.replaceAll("panzerkampfwagen", lerDiretorio);
                 this.output.write(diretorio.getBytes());
+                this.output.close();
             } else {
                 acessoNegado();
             }
@@ -254,6 +270,7 @@ public class OrdoProcessios implements Runnable {
             this.output.write(headers.BasicHeader().getBytes());
             System.out.println(this.output.toString());
             this.output.write(arq.openFile().getBytes());
+            this.output.close();
         } else if (request.contains("/oi.html") || request.contains("/oi")) {
 
             salvarRequisicoes("/oi");
@@ -261,6 +278,7 @@ public class OrdoProcessios implements Runnable {
             this.output.write(headers.BasicHeader().getBytes());
             System.out.println(this.output.toString());
             this.output.write(arq.openFile().getBytes());
+            this.output.close();
 
         } else if (request.contains("/telemetria.html") || request.contains("/telemetria")) {
             salvarRequisicoes("/telemetria");
@@ -273,8 +291,10 @@ public class OrdoProcessios implements Runnable {
                 String replace = openFile.replace("panzerkampfwagen", arq.aboutServer());
                 replace = replace.replace("konigstiger", String.valueOf(cont));
                 this.output.write(replace.getBytes());
+                this.output.close();
             } else {
                 acessoNegado();
+                this.output.close();
             }
 
         } else if (request.contains("/historico.html") || request.contains("/historico")) {
@@ -286,10 +306,21 @@ public class OrdoProcessios implements Runnable {
                 String info = getInfoRequisicoes();
                 String replace = openFile.replace("panzerkampfwagen", info);
                 this.output.write(replace.getBytes());
+                this.output.close();
             } else {
                 acessoNegado();
+                this.output.close();
             }
+        } else if (request.contains("/erro404.html") || request.contains("/erro404")) {
+            salvarRequisicoes("/erro404");
+            arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
+            this.output.write(headers.BasicHeader().getBytes());
+            this.output.write(arq.openFile().getBytes());
+            this.output.close();
         } else {
+
+//            listaAmigos(arrayDeAmigo, request);
+//                System.out.println("deu timótio");
             ExecutorService executor = Executors.newCachedThreadPool();
             Callable<Object> task = new Callable<Object>() {
                 @Override
@@ -300,13 +331,14 @@ public class OrdoProcessios implements Runnable {
             };
             Future<Object> future = executor.submit(task);
             try {
-                Object ob = future.get(5, TimeUnit.SECONDS);
-                
+                Object ob = future.get(15, TimeUnit.SECONDS);
+
             } catch (InterruptedException ex) {
                 arq = new Arquivo(this.pathToHtml + "/src/html/erro404.html");
                 this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
                 System.out.println("deu timótio");
+                this.output.close();
 //                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
                 System.out.println("entrou aqui no timotio");
@@ -317,6 +349,7 @@ public class OrdoProcessios implements Runnable {
                 this.output.write(headers.BasicHeader().getBytes());
                 this.output.write(arq.openFile().getBytes());
                 System.out.println("deu timótio");
+                this.output.close();
 //                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -330,9 +363,11 @@ public class OrdoProcessios implements Runnable {
                 arq = new Arquivo(this.pathToHtml + "/src/html/blank.html");
                 this.output.write(arq.openFile().getBytes());
                 fazLogin(bufferedReader);
+
             }
         } catch (IOException ex) {
-            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrdoProcessios.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -365,11 +400,14 @@ public class OrdoProcessios implements Runnable {
                             OutputStream saida2 = this.sok.getOutputStream();
                             saida2.write(texto.getBytes());
                             flag = true;
+                            this.output.close();
+
                         }
                     }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(OrdoProcessios.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
         return flag;
@@ -391,11 +429,15 @@ public class OrdoProcessios implements Runnable {
             String tet = "";
             while ((tet = bufferedReader.readLine()) != null) {
                 cont++;
+
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrdoProcessios.class
+                    .getName()).log(Level.SEVERE, null, ex);
+
         } catch (IOException ex) {
-            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrdoProcessios.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return cont;
     }
@@ -409,15 +451,17 @@ public class OrdoProcessios implements Runnable {
                 Enumeration ee = n.getInetAddresses();
                 while (ee.hasMoreElements()) {
                     InetAddress i = (InetAddress) ee.nextElement();
+                    System.out.println(i.getHostAddress());
                     int compareToIgnoreCase = i.getHostAddress().compareToIgnoreCase(" ");
                     if (!(i.getHostAddress().compareToIgnoreCase("127.0.0.1") == 0)) {
-                        System.out.println(i.getHostAddress());
                         return i.getHostAddress();
+
                     }
                 }
             }
         } catch (SocketException ex) {
-            Logger.getLogger(OrdoProcessios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrdoProcessios.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return " ";
     }
